@@ -1,7 +1,8 @@
-# 
+# frozen_string_literal: true
+
+#
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
- 
 
 require 'rubygems'
 require 'rake'
@@ -15,15 +16,15 @@ spec = Gem::Specification.new do |s|
   s.name = 'pokerstars'
   s.version = '0.0.1'
   s.has_rdoc = true
-  s.extra_rdoc_files = ['README', 'LICENSE']
+  s.extra_rdoc_files = %w[README LICENSE]
   s.summary = 'Your summary here'
   s.description = s.summary
   s.author = ''
   s.email = ''
   # s.executables = ['your_executable_here']
-  s.files = %w(LICENSE README Rakefile) + Dir.glob("{bin,lib,spec}/**/*")
-  s.require_path = "lib"
-  s.bindir = "bin"
+  s.files = %w[LICENSE README Rakefile] + Dir.glob('{bin,lib,spec}/**/*')
+  s.require_path = 'lib'
+  s.bindir = 'bin'
 end
 
 Rake::GemPackageTask.new(spec) do |p|
@@ -33,10 +34,10 @@ Rake::GemPackageTask.new(spec) do |p|
 end
 
 Rake::RDocTask.new do |rdoc|
-  files =['README', 'LICENSE', 'lib/**/*.rb']
+  files = ['README', 'LICENSE', 'lib/**/*.rb']
   rdoc.rdoc_files.add(files)
-  rdoc.main = "README" # page to start on
-  rdoc.title = "pokerstars Docs"
+  rdoc.main = 'README' # page to start on
+  rdoc.title = 'pokerstars Docs'
   rdoc.rdoc_dir = 'doc/rdoc' # rdoc output folder
   rdoc.options << '--line-numbers'
 end
@@ -47,5 +48,5 @@ end
 
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*.rb']
-  t.libs << Dir["lib"]
+  t.libs << Dir['lib']
 end

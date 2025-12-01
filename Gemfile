@@ -1,9 +1,6 @@
-gem 'ZenTest'
-gem 'rspec', '>=2.0.0'
-gem 'sinatra'
-gem 'sinatra-reloader', :require => 'sinatra/reloader'
-gem 'faye'
-gem 'bson_ext'
-gem 'SystemTimer', '>=1.2.0'
-gem 'mongoid', '=2.0.2'
-gem 'highline', :require => 'highline/import'
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'minitest'
+gem 'rubocop'

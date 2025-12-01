@@ -1,8 +1,0 @@
----
-development:
-  database: pokerstars
-test:
-  database: pokerstars_test
-production:
-  database: pokerstars
-  max_retries_on_connection_failure: 5
