@@ -1,21 +1,17 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'rubygems'
-
 $LOAD_PATH.unshift(File.expand_path("#{File.dirname(__FILE__)}/../lib"))
-require 'poker_stars'
+require 'pstars'
 
-include PokerStars
-
-h = HandHistory.new(ENV['HH'])
-f = ENV['F']
+hand_history = Pstars::HandHistory.new(ENV.fetch('HH'))
+file = ENV.fetch('F')
 
 nick = ARGV[1]
 
 case ARGV[0]
 when 'known'
-  h.known_cards(f, nick)
+  hand_history.known_cards(file, nick)
 when 'stats'
-  h.calculate_stats(f, nick)
+  hand_history.calculate_stats(file, nick)
 end

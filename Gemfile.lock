@@ -35,10 +35,11 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   minitest
   rubocop
 
 BUNDLED WITH
-   2.3.26
+   2.4.19
