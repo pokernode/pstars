@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    pstars (1.0.0.pre.alpha.1)
+      json
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -38,8 +44,9 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  minitest
-  rubocop
+  minitest (~> 5.0)
+  pstars!
+  rubocop (~> 1.0)
 
 BUNDLED WITH
    2.4.19

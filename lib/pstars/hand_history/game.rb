@@ -1,8 +1,36 @@
 # frozen_string_literal: true
 
+require 'json'
+
 module PStars
   class HandHistory
     class Game
+      FIELDS = %i[
+        gid
+        table_name
+        button
+        seats
+        stacks
+        players
+        sb
+        bb
+        bets
+        known_cards
+        winners
+        went_to_showdown
+        won_at_showdown
+        lost_at_showdown
+        folded_before_flop
+        pot
+        rake
+        flop
+        turn
+        river
+        tournament
+        table
+        dealt_at
+      ].freeze
+
       attr_reader :players, :data
 
       def initialize(data)
@@ -15,6 +43,14 @@ module PStars
         cutoff = (dealer_index + 3) % positions.size
         normalized = positions.rotate(cutoff)
         @players = normalized.map { |seat| @data.seats[seat] }
+      end
+
+      def gid
+        @data.gid
+      end
+
+      def to_json(*_args)
+        JSON.pretty_generate(data.to_h)
       end
 
       def preflop_action
@@ -98,13 +134,11 @@ module PStars
         bet_count = 0
         call_count = 0
 
-        @data.bets.each_pair do |street, bets|
+        @data.bets.each_pair do |_street, bets|
           next unless bets[seat_index(player)]
 
           bets[seat_index(player)].each do |bet|
-            if bet.is_a?(Hash) && (bet.key?(:raise) || bet.key?(:bet))
-              bet_count += 1
-            end
+            bet_count += 1 if bet.is_a?(Hash) && (bet.key?(:raise) || bet.key?(:bet))
             call_count += 1 if bet.is_a?(Hash) && bet.key?(:call)
           end
         end
