@@ -2,5 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'minitest'
-gem 'rubocop'
+gemspec
+
+# Development dependencies are declared in the gemspec.

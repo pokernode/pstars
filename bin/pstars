@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+
+$LOAD_PATH.unshift(File.expand_path("#{File.dirname(__FILE__)}/../lib"))
+require 'pstars'
+
+options = {}
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: pstars [options] COMMAND [player]"
+  opts.on('-f', '--file FILE', 'Hand history file to parse') { |file| options[:file] = file }
+  opts.on('-h', '--help', 'Show this help message') do
+    puts opts
+    exit
+  end
+end
+
+parser.order!
+
+command = ARGV.shift
+player = ARGV.shift
+
+if options[:file].nil?
+  warn 'Hand history file is required (-f/--file)'
+  puts parser
+  exit 1
+end
+
+unless %w[known stats].include?(command)
+  warn 'Command must be one of: known, stats'
+  puts parser
+  exit 1
+end
+
+if player.nil?
+  warn 'Player nickname is required'
+  puts parser
+  exit 1
+end
+
+hand_history = PStars::HandHistory.new(options[:file])
+
+case command
+when 'known'
+  hand_history.known_cards(player)
+when 'stats'
+  hand_history.calculate_stats(player)
+end

@@ -1,3 +1,10 @@
-== pokerstars
+== pstars
 
-You should document your project here.
+PokerStars hand history parser
+
+Usage:
+
+```
+bin/pstars -f path/to/hand_history.log stats PLAYER
+bin/pstars -f path/to/hand_history.log known PLAYER
+```
