@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'pathname'
+require 'fileutils'
 
 module PStars
   class HandHistory
@@ -14,6 +15,15 @@ module PStars
     def parse(file_path = @file_path)
       with_parser(file_path) do |data|
         Game.new(data)
+      end
+    end
+
+    def json_dump!(output_dir, file_path = @file_path)
+      ::FileUtils.mkdir_p(output_dir)
+      with_parser(file_path) do |data|
+        game = Game.new(data)
+        output_path = Pathname.new(output_dir).join("#{game.gid}.json")
+        File.write(output_path, game.to_json)
       end
     end
 
@@ -43,11 +53,9 @@ module PStars
 
     private
 
-    def with_parser(file_path)
+    def with_parser(file_path, &block)
       parser = Parser.new(Pathname(file_path))
-      parser.parse do |data|
-        yield data
-      end
+      parser.parse(&block)
     end
 
     def build_totals

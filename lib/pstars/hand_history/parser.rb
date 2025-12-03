@@ -5,29 +5,7 @@ require 'date'
 module PStars
   class HandHistory
     GameState = Struct.new(
-      :gid,
-      :table_name,
-      :button,
-      :seats,
-      :stacks,
-      :players,
-      :sb,
-      :bb,
-      :bets,
-      :known_cards,
-      :winners,
-      :went_to_showdown,
-      :won_at_showdown,
-      :lost_at_showdown,
-      :folded_before_flop,
-      :pot,
-      :rake,
-      :flop,
-      :turn,
-      :river,
-      :tournament,
-      :table,
-      :dealt_at,
+      *Game::FIELDS,
       keyword_init: true
     )
 

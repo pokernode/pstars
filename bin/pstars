@@ -8,33 +8,42 @@ require 'pstars'
 
 options = {}
 parser = OptionParser.new do |opts|
-  opts.banner = "Usage: pstars [options] COMMAND [player]"
+  opts.banner = 'Usage: pstars [options] COMMAND [player]'
   opts.on('-f', '--file FILE', 'Hand history file to parse') { |file| options[:file] = file }
-  opts.on('-h', '--help', 'Show this help message') do
+  opts.on('-o', '--output FILE', 'Output games to dir in JSON format') { |out| options[:output_dir] = out }
+  opts.on_tail('-h', '--help', 'Show this help message') do
     puts opts
     exit
   end
 end
 
-parser.order!
+parser.parse!
 
 command = ARGV.shift
-player = ARGV.shift
 
-if options[:file].nil?
+unless options[:file]
   warn 'Hand history file is required (-f/--file)'
   puts parser
   exit 1
 end
 
-unless %w[known stats].include?(command)
-  warn 'Command must be one of: known, stats'
+unless %w[known stats json_dump].include?(command)
+  warn 'Command must be one of: known, stats, json_dump'
   puts parser
   exit 1
 end
 
-if player.nil?
-  warn 'Player nickname is required'
+if %w[known stats].include?(command)
+  player = ARGV.shift
+  unless player
+    warn 'Player nickname is required'
+    puts parser
+    exit 1
+  end
+end
+
+if command == 'json_dump' && options[:output_dir].nil?
+  warn 'Output dir is required'
   puts parser
   exit 1
 end
@@ -42,6 +51,8 @@ end
 hand_history = PStars::HandHistory.new(options[:file])
 
 case command
+when 'json_dump'
+  hand_history.json_dump!(options[:output_dir])
 when 'known'
   hand_history.known_cards(player)
 when 'stats'
